@@ -1,0 +1,70 @@
+{% extends "base/base.html" %}
+
+{% block avi_title %}
+GAVIP AVI (Result {{job_id}})
+{% endblock avi_title %}
+
+{% block avi_content %}
+{% load staticfiles %}
+<link href="{% static 'avi/css/avi.css' %}" rel="stylesheet" type="text/css">
+
+<div class="container-fluid">
+ <div class="col-sm-8 col-md-9 col-lg-10">
+   <div class="container-fluid">
+       
+     <div class="row navoffset">
+       <div class="col-xs-12">
+         {% include "avi/panel_result.html" %}
+       </div>
+     </div>
+     
+     <div class="panel panel-info">
+      <div class="panel-heading" role="tab" id="sources-heading">
+      <h4>
+          <a class="collapsed" role="button" data-toggle="collapse" href="#sources-collapse" aria-expanded="true" aria-controls="sources-collapse">
+              Sources
+          </a>
+      </h4>
+      </div>
+      <div id="sources-collapse" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="sources-heading">
+      <div class="panel-body">
+        
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered table-hover" id="sources-table">
+              <thead>
+                  <tr> 
+                  <th>Source</th> 
+                  <th>Ra</th> 
+                  <th>Dec</th> 
+                  <th>Dist</th> 
+                  <th>Phot_g_mean_flux</th> 
+                  <th>Phot_g_mean_mag</th> 
+                  <th>Details</th> 
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for source in sources %}
+                  <tr href="{% url 'avi:job_source_result' job_id=job_id source_id=source.id %}" class="odd gradeA trlink-cursor" >
+                      <td>{{ source.id }}</td>
+                      <td>{{ source.ra }}</td>
+                      <td>{{ source.dec }}</td>
+                      <td>{{ source.dist }}</td>
+                      <td>{{ source.phot_g_mean_flux }}</td>
+                      <td>{{ source.phot_g_mean_mag }}</td>
+                      <td><a href="{% url 'avi:job_source_result' job_id=job_id source_id=source.id %}"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+            </table>
+        </div>
+        <!-- /.table-responsive -->
+      </div>
+      </div>
+    </div>
+   </div>
+ </div>
+</div>
+
+
+
+{% endblock avi_content %}

@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Source: {{ temp_id }}</title>
+        
+<link rel="stylesheet" href="https://cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.css" type="text/css" />
+        
+<!-- include Aladin Lite CSS file in the head section of your page -->
+<link rel="stylesheet" href="http://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.css" />
+
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.9.1.min.js" charset="utf-8"></script>
+
+<!-- must be included after jquery -->
+<script type="text/javascript" src="http://aladin.u-strasbg.fr/AladinLite/api/v2/latest/aladin.min.js" charset="utf-8"></script>
+
+<script type="text/javascript" src="https://cdn.pydata.org/bokeh/release/bokeh-0.11.1.min.js"></script>
+<script type="text/javascript">
+    Bokeh.set_log_level("info");
+</script>
+
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+<!-- Bootstrap -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+  <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+<![endif]-->
+
+
+    </head>
+    <body>
+
+{% load staticfiles %}
+
+
+<div class="container-fluid">
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+        <h4> - More Source details - </h4>
+    </div>
+  </div>
+</div>
+
+<div class="col-lg-6 col-md-6 col-sm-12" >
+  <div class="panel panel-info">
+    <div class="panel-heading">
+      <h4>SDSS</h4>
+    </div>
+    <center>
+      <div class="panel-body" id="aladin-lite-div" style="min-height: 500px; max-width: 750px;"></div>
+    </center>
+    </div>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover" id="sources-table" style="width:50%">
+    <tr> 
+      <th>Source</th> 
+      <td>{{ temp_id }}</td>
+    </tr>
+    <tr>
+      <th>Ra</th> 
+      <td>{{ ra }}</td>
+    </tr>
+    <tr>
+      <th>Dec</th> 
+      <td>{{ dec }}</td>
+    </tr>
+    <tr>
+      <th>Dist</th> 
+      <td>{{ dist }}</td>
+    </tr>
+    <tr>
+      <th>Phot_g_mean_flux</th> 
+      <td>{{ phot_g_mean_flux }}</td>
+    </tr>
+    <tr>
+      <th>Phot_g_mean_mag</th> 
+      <td>{{ phot_g_mean_mag }}</td>
+    </tr>
+  </table>
+</div>      
+
+<script>
+$(document).ready(function(){
+  $('#aladin-lite-div').css("min-height", $('#source-metadata .panel-body').outerHeight());
+  var aladin = A.aladin('#aladin-lite-div', {survey: "P/DSS2/color", fov:0.5, target: "{{ ra }}   {{ dec }}"});
+  //$(window).trigger('resize');
+})
+</script>
+
+</html>
