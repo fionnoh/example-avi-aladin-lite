@@ -33,24 +33,22 @@ GAVIP AVI (Result {{job_id}})
           <table class="table table-striped table-bordered table-hover" id="sources-table">
               <thead>
                   <tr> 
-                  <th>Source</th> 
+                  <th>Source Id</th> 
+                  <th>Source Classification</th> 
+                  <th>Classification</th> 
                   <th>Ra</th> 
                   <th>Dec</th> 
-                  <th>Dist</th> 
-                  <th>Phot_g_mean_flux</th> 
-                  <th>Phot_g_mean_mag</th> 
                   <th>Details</th> 
                   </tr>
               </thead>
               <tbody>
                   {% for source in sources %}
                   <tr href="{% url 'avi:job_source_result' job_id=job_id source_id=source.id %}" class="odd gradeA trlink-cursor" >
-                      <td>{{ source.id }}</td>
+                      <td>{{ source.source_id }}</td>
+                      <td>{{ source.source_classification }}</td>
+                      <td>{{ source.classification }}</td>
                       <td>{{ source.ra }}</td>
                       <td>{{ source.dec }}</td>
-                      <td>{{ source.dist }}</td>
-                      <td>{{ source.phot_g_mean_flux }}</td>
-                      <td>{{ source.phot_g_mean_mag }}</td>
                       <td><a href="{% url 'avi:job_source_result' job_id=job_id source_id=source.id %}"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></td>
                   </tr>
                   {% endfor %}
@@ -65,6 +63,7 @@ GAVIP AVI (Result {{job_id}})
  </div>
 </div>
 
+        gaiamagcols = ['source_id', 'source_classification', 'classification', 'ra', 'dec']
 
 
 {% endblock avi_content %}

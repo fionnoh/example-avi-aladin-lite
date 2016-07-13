@@ -59,35 +59,25 @@ class ProcessData(AviTask):
         t = Table.read(shared_file_path, format='votable')
         df = pd.DataFrame(np.ma.filled(t.as_array()), columns=t.colnames)
 
-        gaiamagcols = ['dec', 'dist', 'phot_g_mean_flux', 'phot_g_mean_mag', 'ra']
+        gaiamagcols = ['source_id', 'source_classification', 'classification', 'ra', 'dec']
         gaiadf = df[gaiamagcols]
 
         sources = []
-        # profile = pandas_profiling.ProfileReport(df)
 
-        for i in range(0, 5):
-        # for i in range(0, len(gaiadf.index)):  # ~4000
-            temp_json = json.loads(gaiadf.iloc[i].to_json())
+        # for i in range(0, 5):
+        for i in range(0, len(gaiadf.index)):
+            temp_json = json.loads(df.iloc[i].to_json())
             temp_json['id'] = i
             # temp_json['request_id'] = self.request_id
             sources.append(temp_json)
 
         analysis_context = {'sources': sources}
 
-        details_path = os.path.join(settings.OUTPUT_PATH, 'details')
-
-        if not os.path.exists(os.path.dirname(details_path)):
-            os.makedirs(os.path.dirname(details_path))
-
         for source in sources:
             temp_id = source['id']
-            source_details = {'temp_id': temp_id,
-                              'ra': source['ra'],
-                              'dec': source['dec'],
-                              'dist': source['dist'],
-                              'phot_g_mean_flux': source['phot_g_mean_flux'],
-                              'phot_g_mean_mag': source['phot_g_mean_mag']
-                              }
+            source_details = {}
+            for i in df:
+                source_details[i] = source[i]
             with open(os.path.join(settings.OUTPUT_PATH, '%s_%s_details' % (self.request_id, temp_id)), 'wb') as out:
                 json.dump(source_details, out)
 
@@ -140,15 +130,14 @@ class QueryData(AviTask):
         t = Table.read(self.input().path, format='votable')
         df = pd.DataFrame(np.ma.filled(t.as_array()), columns=t.colnames)
 
-        gaiamagcols = ['dec', 'dec_error', 'dist', 'phot_g_mean_flux', 'phot_g_mean_mag', 'ra', 'source_id']
+        gaiamagcols = ['source_id', 'source_classification', 'classification', 'ra', 'dec']
         gaiadf = df[gaiamagcols]
 
         sources = []
-        # profile = pandas_profiling.ProfileReport(df)
 
-        for i in range(0, 5):
-        # for i in range(0, len(gaiadf.index)):  # ~4000
-            temp_json = json.loads(gaiadf.iloc[i].to_json())
+        # for i in range(0, 5):
+        for i in range(0, len(gaiadf.index)):
+            temp_json = json.loads(df.iloc[i].to_json())
             temp_json['id'] = i
             # temp_json['request_id'] = self.request_id
             sources.append(temp_json)
@@ -157,13 +146,9 @@ class QueryData(AviTask):
 
         for source in sources:
             temp_id = source['id']
-            source_details = {'temp_id': temp_id,
-                              'ra': source['ra'],
-                              'dec': source['dec'],
-                              'dist': source['dist'],
-                              'phot_g_mean_flux': source['phot_g_mean_flux'],
-                              'phot_g_mean_mag': source['phot_g_mean_mag']
-                              }
+            source_details = {}
+            for i in df:
+                source_details[i] = source[i]
             with open(os.path.join(settings.OUTPUT_PATH, '%s_%s_details' % (self.request_id, temp_id)), 'wb') as out:
                 json.dump(source_details, out)
 
