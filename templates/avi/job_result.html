@@ -34,8 +34,10 @@ GAVIP AVI (Result {{job_id}})
               <thead>
                   <tr> 
                   <th>Source Id</th> 
-                  <th>Source Classification</th> 
-                  <th>Classification</th> 
+                  <th>mag_bj</th> 
+                  <th>mag_g</th> 
+                  <th>mag_grvs</th> 
+                  <th>mag_rf</th> 
                   <th>Ra</th> 
                   <th>Dec</th> 
                   <th>Details</th> 
@@ -45,8 +47,10 @@ GAVIP AVI (Result {{job_id}})
                   {% for source in sources %}
                   <tr href="{% url 'avi:job_source_result' job_id=job_id source_id=source.id %}" class="odd gradeA trlink-cursor" >
                       <td>{{ source.source_id }}</td>
-                      <td>{{ source.source_classification }}</td>
-                      <td>{{ source.classification }}</td>
+                      <td>{{ source.mag_bj }}</td>
+                      <td>{{ source.mag_g }}</td>
+                      <td>{{ source.mag_grvs }}</td>
+                      <td>{{ source.mag_rf }}</td>
                       <td>{{ source.ra }}</td>
                       <td>{{ source.dec }}</td>
                       <td><a href="{% url 'avi:job_source_result' job_id=job_id source_id=source.id %}"><span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span></a></td>
@@ -62,8 +66,5 @@ GAVIP AVI (Result {{job_id}})
    </div>
  </div>
 </div>
-
-        gaiamagcols = ['source_id', 'source_classification', 'classification', 'ra', 'dec']
-
 
 {% endblock avi_content %}

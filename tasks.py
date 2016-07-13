@@ -58,8 +58,7 @@ class ProcessData(AviTask):
         logger.debug('Input VOTable file: %s' % shared_file_path)
         t = Table.read(shared_file_path, format='votable')
         df = pd.DataFrame(np.ma.filled(t.as_array()), columns=t.colnames)
-
-        gaiamagcols = ['source_id', 'source_classification', 'classification', 'ra', 'dec']
+        gaiamagcols = ['source_id', 'mag_bj', 'mag_g', 'mag_grvs', 'mag_rf', 'ra', 'dec']
         gaiadf = df[gaiamagcols]
 
         sources = []
@@ -130,7 +129,7 @@ class QueryData(AviTask):
         t = Table.read(self.input().path, format='votable')
         df = pd.DataFrame(np.ma.filled(t.as_array()), columns=t.colnames)
 
-        gaiamagcols = ['source_id', 'source_classification', 'classification', 'ra', 'dec']
+        gaiamagcols = ['source_id', 'mag_bj', 'mag_g', 'mag_grvs', 'mag_rf', 'ra', 'dec']
         gaiadf = df[gaiamagcols]
 
         sources = []
